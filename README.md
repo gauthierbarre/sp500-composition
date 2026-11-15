@@ -1,6 +1,5 @@
 # S&P 500 composition: rules, reproduction, prediction
 
-Team Turing, MaQI Hackathon 2, September 2026.
 
 On 1990-2001 the cap-weighted total-return index built on our month-end composition scores correlation 0.9992, slope 1.0093 and tracking error 57.5 bp against the published S&P 500; equal weights on the same names score slope 0.8622.
 Frozen at the 1996-12 cutoff, our rule-based composition scores overlap 0.4619 on 1997-2001 against 0.8293 for persistence, with additions recall 0.4139 at precision 0.1647; past 2002 the index on it scores correlation 0.7676 against the published total return.
@@ -8,7 +7,7 @@ One month ahead, our entry and exit classifiers score overlap 0.9926 against 0.9
 
 ## The question
 
-Three points on the S&P 500: what decides who enters and who leaves on 1990-2002, where membership is observed; a month-end reconstruction of the composition, checked through the cap-weighted total-return index built on it; and the composition past the vendor's cutoff, at t (2002-2026) and at t+h. The organisers' brief, with the scoring and the baselines, is in [docs/BRIEF.md](docs/BRIEF.md).
+Three points on the S&P 500: what decides who enters and who leaves on 1990-2002, where membership is observed; a month-end reconstruction of the composition, checked through the cap-weighted total-return index built on it; and the composition past the vendor's cutoff, at t (2002-2026) and at t+h. The organisers' brief, with the scoring and the baselines.
 
 ## Data
 
@@ -77,14 +76,3 @@ The organisers' package, `src/maqi_hackathon_2`, does the data access and the sc
 
 The hardest part was turning entry and exit scores into a composition. Entries are rare (0.0212% of non-member months), so classifiers that rank candidates with ROC AUC 0.76 still add no name at one month, and no single score judged a composition fairly: at one month the index on the models and on persistence is the same series, while the change scores give both zero additions recall.
 
-## How to run
-
-On the MaQI platform, in the provided `hackathon-2-env` kernel, with read access to the derived panel. Run `notebooks/01_rules_and_reproduction.ipynb`, then `notebooks/02_prediction.ipynb`, top to bottom. `01` calls `data.build()`, which extracts the local tables once, reads `prices_daily` from the bucket for the daily build, and writes the eligibility panel to the data store (`data.store()`, outside the repository); `02` reads it and writes the two predictions there. Figures go to `figures/`. Clear the outputs before committing:
-
-```bash
-jupyter nbconvert --clear-output --inplace notebooks/01_rules_and_reproduction.ipynb notebooks/02_prediction.ipynb
-```
-
-## Team
-
-Charles Guilbault and Gauthier Barré. Thanks to the MaQI platform team for the platform, the derived panel and the scoring package.
